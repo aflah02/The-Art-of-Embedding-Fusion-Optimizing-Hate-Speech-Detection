@@ -6,6 +6,7 @@ from sklearn.metrics import classification_report
 from sklearn.metrics import recall_score
 from sklearn.metrics import precision_score
 from sklearn.metrics import roc_auc_score
+import json
 
 dynahate_dataset_path = "..\\Data_Preprocessing\\PreProcessed_Data\\DynaHate\\"
 latenthatred_dataset_path = "..\\Data_Preprocessing\\PreProcessed_Data\\Latent_Hatred\\"
@@ -74,7 +75,7 @@ def load_model(file_name):
     f.close()
     return temp
 
-def computeAllScores(y_pred_train_dev, y_pred_test, train_dev_labels, test_labels):
+def computeAllScores(y_pred_train_dev, y_pred_test, train_dev_labels, test_labels, save_name):
     print("Accuracy Train Dev: ", accuracy_score(train_dev_labels, y_pred_train_dev))
     print("Accuracy Test: ", accuracy_score(test_labels, y_pred_test))
     print("Weighted F1 Train Dev: ", f1_score(train_dev_labels, y_pred_train_dev, average="weighted"))
@@ -94,6 +95,27 @@ def computeAllScores(y_pred_train_dev, y_pred_test, train_dev_labels, test_label
     print(confusion_matrix(train_dev_labels, y_pred_train_dev))
     print("Confusion Matrix Test: ")
     print(confusion_matrix(test_labels, y_pred_test))
+    # Json with all the scores
+    scores = {}
+    scores["Accuracy Train Dev"] = accuracy_score(train_dev_labels, y_pred_train_dev)
+    scores["Accuracy Test"] = accuracy_score(test_labels, y_pred_test)
+    scores["Weighted F1 Train Dev"] = f1_score(train_dev_labels, y_pred_train_dev, average="weighted")
+    scores["Weighted F1 Test"] = f1_score(test_labels, y_pred_test, average="weighted")
+    scores["Macro F1 Train Dev"] = f1_score(train_dev_labels, y_pred_train_dev, average="macro")
+    scores["Macro F1 Test"] = f1_score(test_labels, y_pred_test, average='macro')
+    scores["Micro F1 Train Dev"] = f1_score(train_dev_labels, y_pred_train_dev, average="micro")
+    scores["Micro F1 Test"] = f1_score(test_labels, y_pred_test, average='micro')
+    scores["Weighted Recall Train Dev"] = recall_score(train_dev_labels, y_pred_train_dev, average="weighted")
+    scores["Weighted Recall Test"] = recall_score(test_labels, y_pred_test, average='weighted')
+    scores["Macro Recall Train Dev"] = recall_score(train_dev_labels, y_pred_train_dev, average="macro")
+    scores["Macro Recall Test"] = recall_score(test_labels, y_pred_test, average='macro')
+    scores["Micro Recall Train Dev"] = recall_score(train_dev_labels, y_pred_train_dev, average="micro")
+    scores["Micro Recall Test"] = recall_score(test_labels, y_pred_test, average='micro')
+    scores["Confusion Matrix Train Dev"] = confusion_matrix(train_dev_labels, y_pred_train_dev).tolist()
+    scores["Confusion Matrix Test"] = confusion_matrix(test_labels, y_pred_test).tolist()
+    with open(save_name, 'w') as f:
+        json.dump(scores, f)
+    
 
 # Read all the embeddings
 
