@@ -1,2 +1,4 @@
 venv/
 Model_Embeddings/
+Model_Dumps/
+__pycache__/
