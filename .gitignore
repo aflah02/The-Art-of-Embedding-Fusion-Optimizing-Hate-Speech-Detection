@@ -1,4 +1,5 @@
 venv/
-Model_Embeddings/
+Numpy_Model_Embeddings/
+Torch_Model_Embeddings/
 Model_Dumps/
 __pycache__/
