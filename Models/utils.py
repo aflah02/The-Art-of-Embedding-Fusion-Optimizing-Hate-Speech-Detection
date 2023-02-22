@@ -7,6 +7,20 @@ from sklearn.metrics import recall_score
 from sklearn.metrics import precision_score
 from sklearn.metrics import roc_auc_score
 import json
+import random
+import numpy as np
+
+def set_random_seed(seed: int):
+    """
+    Helper function to seed experiment for reproducibility.
+    If -1 is provided as seed, experiment uses random seed from 0~9999
+    Args:
+        seed (int): integer to be used as seed, use -1 to randomly seed experiment
+    """
+    print("Seed: {}".format(seed))
+    random.seed(seed)
+    os.environ["PYTHONHASHSEED"] = str(seed)
+    np.random.seed(seed)
 
 dynahate_dataset_path = "..\\Data_Preprocessing\\PreProcessed_Data\\DynaHate\\"
 latenthatred_dataset_path = "..\\Data_Preprocessing\\PreProcessed_Data\\Latent_Hatred\\"
