@@ -2,4 +2,5 @@ venv/
 Numpy_Model_Embeddings/
 Torch_Model_Embeddings/
 Models/Saves/
+Models/NonSeed_Saves/
 __pycache__/
